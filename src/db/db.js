@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-// 'mongodb+srv://tenkil247:sac12345@cluster0.mdmwz.mongodb.net/tenj-task-manager'
-
 mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
