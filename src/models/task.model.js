@@ -15,6 +15,10 @@ const taskSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
         },
+        grade: {
+            type: String,
+            default: 'normal',
+        },
         date: {
             type: String,
         },
