@@ -7,7 +7,7 @@ const taskRouter = require('./routers/task.router');
 
 const app = express();
 
-app.user(cors());
+app.use(cors());
 
 app.use(express.json());
 
