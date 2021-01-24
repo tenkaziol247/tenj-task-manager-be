@@ -72,7 +72,7 @@ test('Sign up invalid', async () => {
             name: userOne.name,
         })
         .expect(400);
-    expect(response.body.error).toBe('Account already exists');
+    expect(response.body.message).toBe('Account already exists');
 });
 
 test('Login user valid', async () => {

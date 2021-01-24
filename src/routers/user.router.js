@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
         res.status(201).send({ user: newUser, token });
     } catch (err) {
         if (err.name === 'MongoError' && err.code === 11000) {
-            res.status(400).send({ error: 'Account already exists' });
+            res.status(400).send({ message: 'Account already exists' });
         } else {
             res.status(400).send(err);
         }
@@ -34,7 +34,7 @@ router.post('/login', async (req, res) => {
         const token = await user.generateToken();
         res.status(200).send({ user, token });
     } catch (err) {
-        res.status(400).send({ error: err.message });
+        res.status(400).send({ message: err.message });
     }
 });
 
@@ -79,7 +79,7 @@ router.patch('/me', auth, async (req, res) => {
     });
 
     if (!isValid) {
-        return res.status(400).send({ error: 'Invalid updates' });
+        return res.status(400).send({ message: 'Invalid updates' });
     }
 
     try {
@@ -90,7 +90,7 @@ router.patch('/me', auth, async (req, res) => {
 
         res.send(req.user);
     } catch (err) {
-        res.status(400).send();
+        res.status(500).send();
     }
 });
 
@@ -130,20 +130,20 @@ router.post(
         res.send();
     },
     (err, req, res, next) => {
-        res.status(400).send({ error: err.message });
+        res.status(400).send({ message: err.message });
     },
 );
 
 router.get('/me/avatar', auth, async (req, res) => {
     try {
         if (!req.user.avatar) {
-            throw new Error();
+            return res.status(404).send({ message: 'Dont have avatar' });
         }
 
         res.set('Content-Type', 'image/png');
         res.send(req.user.avatar);
     } catch (err) {
-        res.status(404).send();
+        res.status(500).send();
     }
 });
 

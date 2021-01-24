@@ -15,7 +15,7 @@ router.post('/', auth, async (req, res) => {
         await newTask.save();
         res.status(201).send(newTask);
     } catch (err) {
-        res.status(400).send();
+        res.status(400).send(err);
     }
 });
 
@@ -27,7 +27,7 @@ router.get('/:id', auth, async (req, res) => {
             owner: req.user._id,
         });
         if (!task) {
-            return res.status(400).send({ error: 'Cannot find task!' });
+            return res.status(400).send({ message: 'Cannot find task!' });
         }
 
         res.send(task);
@@ -61,7 +61,7 @@ router.patch('/many', auth, async (req, res) => {
         });
     });
     if (!isValid) {
-        return res.status(400).send({ error: 'Updates invalid' });
+        return res.status(400).send({ message: 'Updates invalid' });
     }
 
     let flag = true;
@@ -84,7 +84,7 @@ router.patch('/many', auth, async (req, res) => {
             await task.save();
         }
         if (!flag) {
-            res.status(404).send({ error: 'Cannot find tasks' });
+            res.status(404).send({ message: 'Cannot find tasks' });
         } else {
             res.send();
         }
@@ -102,7 +102,7 @@ router.patch('/:id', auth, async (req, res) => {
         allowedProperties.includes(property),
     );
     if (!isValid) {
-        return res.status(400).send({ error: 'Invalid updates' });
+        return res.status(400).send({ message: 'Invalid updates' });
     }
 
     try {
@@ -112,7 +112,7 @@ router.patch('/:id', auth, async (req, res) => {
             owner: req.user._id,
         });
         if (!task) {
-            return res.status(404).send({ error: 'Cannot find task!' });
+            return res.status(404).send({ message: 'Cannot find task!' });
         }
 
         updateProperties.forEach(
@@ -140,7 +140,7 @@ router.delete('/many', auth, async (req, res) => {
             await task.remove();
         }
         if (!flag) {
-            res.status(404).send({ error: 'Cannot find task' });
+            res.status(404).send({ message: 'Cannot find task' });
         } else {
             res.send();
         }
@@ -167,7 +167,7 @@ router.delete('/:id', auth, async (req, res) => {
             owner: req.user._id,
         });
         if (!task) {
-            return res.status(404).send({ error: 'Cannot find task' });
+            return res.status(404).send({ message: 'Cannot find task' });
         }
         await task.remove();
         res.send(task);
