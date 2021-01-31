@@ -50,9 +50,7 @@ const taskSchema = new mongoose.Schema(
 
 taskSchema.statics.generateRangeProperty = (date) => {
     let range;
-    if (!date) {
-        range = 'unset';
-    } else {
+    if (date && (date.startAt || date.endAt)) {
         if (!date.startAt) {
             range = 'nostarttime';
         } else if (!date.endAt) {
@@ -89,6 +87,8 @@ taskSchema.statics.generateRangeProperty = (date) => {
                 }
             }
         }
+    } else {
+        range = 'unset';
     }
     return range;
 };
