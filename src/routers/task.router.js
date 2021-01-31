@@ -43,11 +43,31 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 //read all tasks of user
+//Filter: ?completed=false
+//Pagination: ?limit=0&skip=0
+//Sort: ?sortBy=[field]:(desc|asc) //field: createdAt|priority|grade // descending = reduce, ascending = increase
 router.get('/', auth, async (req, res) => {
+    const match = {};
+    if (req.query.completed) {
+        match.completed = req.query.completed === 'true';
+    }
+
+    const sort = {};
+    if (req.query.sortBy) {
+        const parts = req.query.sortBy.split(':');
+        sort[parts[0]] = parts[1].toString() === 'desc' ? -1 : 1;
+    }
+
     try {
         await req.user
             .populate({
                 path: 'tasks',
+                match,
+                options: {
+                    limit: +req.query.limit,
+                    skip: +req.query.skip,
+                    sort,
+                },
             })
             .execPopulate();
         res.send(req.user.tasks);
@@ -60,7 +80,14 @@ router.get('/', auth, async (req, res) => {
 router.patch('/many', auth, async (req, res) => {
     //check update property valid
     const updateTasks = req.body;
-    const allowedProperties = ['taskName', 'description', 'completed', 'date'];
+    const allowedProperties = [
+        'taskName',
+        'description',
+        'completed',
+        'date',
+        'grade',
+        'priority',
+    ];
     const isValid = updateTasks.every((obj) => {
         if (obj.date && obj.date.startAt && obj.date.endAt) {
             return obj.date.endAt > obj.date.startAt;
@@ -130,7 +157,14 @@ router.patch('/many', auth, async (req, res) => {
 router.patch('/:id', auth, async (req, res) => {
     //check update valid
     const updateProperties = Object.keys(req.body);
-    const allowedProperties = ['taskName', 'description', 'completed', 'date'];
+    const allowedProperties = [
+        'taskName',
+        'description',
+        'completed',
+        'date',
+        'grade',
+        'priority',
+    ];
     const isValid = updateProperties.every((property) =>
         allowedProperties.includes(property),
     );

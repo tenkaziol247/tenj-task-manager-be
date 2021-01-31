@@ -34,6 +34,13 @@ const taskOne = {
     taskName: 'Clean the table',
     description: 'Today i will clean the table',
     completed: true,
+    grade: 'b',
+    priority: 'b',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
     owner: userOne._id,
 };
 
@@ -42,6 +49,13 @@ const taskTwo = {
     taskName: 'Wipe the floor',
     description: 'Tomorrow i will clean the table',
     completed: false,
+    grade: 'a',
+    priority: 'c',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
     owner: userOne._id,
 };
 
@@ -50,6 +64,13 @@ const taskThree = {
     taskName: 'Make the bed',
     description: 'Today i will make the bed',
     completed: true,
+    grade: 'b',
+    priority: 'c',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
     owner: userTwo._id,
 };
 
@@ -58,6 +79,13 @@ const taskFour = {
     taskName: 'Go to school',
     description: 'Tonight i will go to school',
     completed: false,
+    grade: 'c',
+    priority: 'b',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
     owner: userTwo._id,
 };
 
@@ -66,6 +94,13 @@ const taskFive = {
     taskName: 'Take care yard',
     description: 'Afternoon i will get rid of weed',
     completed: false,
+    grade: 'c',
+    priority: 'a',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
     owner: userOne._id,
 };
 
@@ -74,6 +109,13 @@ const taskSix = {
     taskName: 'Clean the body:))',
     description: 'Afternoon i will bath',
     completed: true,
+    grade: 'b',
+    priority: 'b',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
     owner: userOne._id,
 };
 

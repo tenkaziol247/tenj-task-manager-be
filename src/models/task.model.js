@@ -19,7 +19,13 @@ const taskSchema = new mongoose.Schema(
             type: String,
             trim: true,
             lowercase: true,
-            default: 'normal',
+            default: 'b',
+        },
+        priority: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            default: 'b',
         },
         range: {
             type: String,
@@ -52,7 +58,7 @@ taskSchema.statics.generateRangeProperty = (date) => {
         } else if (!date.endAt) {
             range = 'noendtime';
         } else {
-            if (date.endAt <= date.startAt) {
+            if (date.endAt < date.startAt) {
                 return;
             } else {
                 const startTime = new Date(date.startAt);

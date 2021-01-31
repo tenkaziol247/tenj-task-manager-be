@@ -26,6 +26,10 @@ test('Should create a new task', async () => {
             taskName: 'Task 5',
             description: 'Task 5 description',
             completed: true,
+            date: {
+                startAt: new Date(),
+                endAt: new Date(),
+            },
         })
         .expect(201);
     const task = await Task.findById(response.body._id);
@@ -33,6 +37,7 @@ test('Should create a new task', async () => {
     expect(task.taskName).toBe('Task 5');
     expect(task.description).toBe('Task 5 description');
     expect(task.completed).toBe(true);
+    expect(task.range).toBe('day');
 });
 
 test('Should create task failure', async () => {
@@ -88,6 +93,33 @@ test('Should get all task of user success', async () => {
         .expect(200);
     const tasks = response.body;
     expect(tasks.length).toBe(2);
+});
+
+test('Filter all task of user success', async () => {
+    const response = await request(app)
+        .get('/tasks?completed=true')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .expect(200);
+    const tasks = response.body;
+    expect(tasks.length).toBe(2);
+});
+
+test('Pagination all task of user success', async () => {
+    const response = await request(app)
+        .get('/tasks?limit=3&skip=0')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .expect(200);
+    const tasks = response.body;
+    expect(tasks.length).toBe(3);
+});
+
+test('Sort all task of user success', async () => {
+    const response = await request(app)
+        .get('/tasks?sortBy=grade:desc')
+        .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+        .expect(200);
+    const tasks = response.body;
+    expect(tasks[0].taskName).toBe('Take care yard');
 });
 
 test('Get all task of user failure', async () => {
