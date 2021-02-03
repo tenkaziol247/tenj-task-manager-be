@@ -29,6 +29,17 @@ const userTwo = {
     tokens: [{ token: jwt.sign({ _id: userTwoId }, process.env.JWT_SECRET) }],
 };
 
+const userThreeId = new mongoose.Types.ObjectId();
+
+const userThree = {
+    _id: userThreeId,
+    email: 'user3@gmail.com',
+    password: 'user123',
+    name: 'TenJ',
+    age: 26,
+    tokens: [{ token: jwt.sign({ _id: userThreeId }, process.env.JWT_SECRET) }],
+};
+
 const taskOne = {
     _id: new mongoose.Types.ObjectId(),
     taskName: 'Clean the table',
@@ -119,6 +130,51 @@ const taskSix = {
     owner: userOne._id,
 };
 
+const taskSeven = {
+    _id: new mongoose.Types.ObjectId(),
+    taskName: 'Task 7 User 3',
+    description: 'Afternoon i will bath',
+    completed: true,
+    grade: 'b',
+    priority: 'b',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
+    owner: userThree._id,
+};
+
+const taskEight = {
+    _id: new mongoose.Types.ObjectId(),
+    taskName: 'Task 8 User 3',
+    description: 'Afternoon i will bath',
+    completed: true,
+    grade: 'b',
+    priority: 'b',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
+    owner: userThree._id,
+};
+
+const taskNine = {
+    _id: new mongoose.Types.ObjectId(),
+    taskName: 'Task 9 User 3',
+    description: 'Afternoon i will bath',
+    completed: false,
+    grade: 'b',
+    priority: 'b',
+    date: {
+        startAt: new Date(),
+        endAt: new Date(),
+    },
+    range: 'day',
+    owner: userThree._id,
+};
+
 const setupBeforeTest = async () => {
     //teardown data
     await User.deleteMany();
@@ -127,24 +183,34 @@ const setupBeforeTest = async () => {
     //create new data
     await new User(userOne).save();
     await new User(userTwo).save();
+    await new User(userThree).save();
+
     await new Task(taskOne).save();
     await new Task(taskTwo).save();
     await new Task(taskThree).save();
     await new Task(taskFour).save();
     await new Task(taskFive).save();
     await new Task(taskSix).save();
+    await new Task(taskSeven).save();
+    await new Task(taskEight).save();
+    await new Task(taskNine).save();
 };
 
 module.exports = {
     userOneId,
     userTwoId,
+    userThreeId,
     userOne,
     userTwo,
+    userThree,
     taskOne,
     taskTwo,
     taskThree,
     taskFour,
     taskFive,
     taskSix,
+    taskSeven,
+    taskEight,
+    taskNine,
     setupBeforeTest,
 };

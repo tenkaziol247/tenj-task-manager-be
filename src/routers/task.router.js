@@ -245,6 +245,16 @@ router.delete('/many', auth, async (req, res) => {
     }
 });
 
+//delete tasks completed
+router.delete('/completedAll', auth, async (req, res) => {
+    try {
+        await Task.deleteMany({ owner: req.user._id, completed: true });
+        res.send();
+    } catch (err) {
+        res.status(500).send();
+    }
+});
+
 //delete all task
 router.delete('/all', auth, async (req, res) => {
     try {

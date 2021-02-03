@@ -14,6 +14,8 @@ const {
     taskFive,
     taskSix,
     setupBeforeTest,
+    userThree,
+    userThreeId,
 } = require('./fixtures/documents/document');
 
 beforeEach(setupBeforeTest);
@@ -302,4 +304,14 @@ test('Delete all task of user success', async () => {
 test('Delete all task of user failure', async () => {
     //bad token
     await request(app).delete('/tasks/all').expect(401);
+});
+
+test('Deleted all completed task of user', async () => {
+    await request(app)
+        .delete('/tasks/completedAll')
+        .set('Authorization', `Bearer ${userThree.tokens[0].token}`)
+        .expect(200);
+
+    const tasksExist = await Task.find({ owner: userThree._id });
+    expect(tasksExist.length).toBe(1);
 });
