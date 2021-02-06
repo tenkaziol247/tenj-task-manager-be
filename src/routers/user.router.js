@@ -127,7 +127,8 @@ router.post(
             .toBuffer();
         req.user.avatar = buffer;
         await req.user.save();
-        res.send();
+        res.set('Content-Type', 'image/png');
+        res.send(req.user.avatar);
     },
     (err, req, res, next) => {
         res.status(400).send({ message: err.message });
