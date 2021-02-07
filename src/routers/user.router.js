@@ -127,22 +127,28 @@ router.post(
             .toBuffer();
         req.user.avatar = buffer;
         await req.user.save();
-        res.set('Content-Type', 'image/png');
-        res.send(req.user.avatar);
+        res.send();
     },
     (err, req, res, next) => {
         res.status(400).send({ message: err.message });
     },
 );
 
-router.get('/me/avatar', auth, async (req, res) => {
+router.get('/avatar/:id', async (req, res) => {
     try {
-        if (!req.user.avatar) {
+        const user = await User.findOne({ _id: req.params.id });
+
+        if (!user) {
+            return res.status(404).send({ message: 'Cant not find user' });
+        }
+
+        if (!user.avatar) {
+            console.log('1');
             return res.status(404).send({ message: 'Dont have avatar' });
         }
 
         res.set('Content-Type', 'image/png');
-        res.send(req.user.avatar);
+        res.send(user.avatar);
     } catch (err) {
         res.status(500).send();
     }

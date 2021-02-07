@@ -231,17 +231,6 @@ test('Upload file failure', async () => {
         .expect(400);
 });
 
-test('Get image success', async () => {
-    await request(app)
-        .get('/users/me/avatar')
-        .set('Authorization', `Bearer ${userTwo.tokens[0].token}`)
-        .expect(200);
-});
-
-test('Dont get image when bad token', async () => {
-    await request(app).get('/users/me/avatar').expect(401);
-});
-
 test('Delete avatar success', async () => {
     await request(app)
         .delete('/users/me/avatar')
