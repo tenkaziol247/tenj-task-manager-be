@@ -3,6 +3,7 @@ const User = require('../models/user.model');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const sharp = require('sharp');
+const fs = require('fs');
 
 const router = new express.Router();
 
@@ -142,12 +143,11 @@ router.get('/:id/avatar', async (req, res) => {
             return res.status(404).send({ message: 'Cant not find user' });
         }
 
-        if (!user.avatar) {
-            console.log('1');
-            return res.status(404).send({ message: 'Dont have avatar' });
-        }
-
         res.set('Content-Type', 'image/png');
+        if (!user.avatar) {
+            const buffer = fs.readFileSync('src/assets/user-avatar.png');
+            return res.send(buffer);
+        }
         res.send(user.avatar);
     } catch (err) {
         res.status(500).send();
